@@ -3,10 +3,10 @@ Python-based utility for backing up files on Windows systems<br />
 <a href="https://mattcasmith.net">MattCASmith.net</a> | <a href="https://twitter.com/mattcasmith">@MattCASmith</a>
 
 ```diff
-- Backutil is a learning/hobby project and at least some aspects of its code may not follow 
-- best practices. If you choose to use it, you do so at your own risk. Make sure you take
-- a manual backup of your files before trying it out, and don't rely on it to back up
-- your production servers.
+- Backutil is a learning/hobby project and some aspects of its code may not follow best
+- practices. While you're welcome to use it, you do so at your own risk. Make sure you take
+- a manual backup of your files before trying it out, and don't go relying on it to back
+- up your production servers.
 ```
 
 ### Introduction
