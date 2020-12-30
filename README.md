@@ -117,4 +117,4 @@ My determination to build a minimum viable product before the end of 2020 means 
 
 Have you got more ideas for new Backutil features? Or have you found bugs that you think I haven't? Please <a href="mailto:mattcasmith@protonmail.com">send me an email</a> to let me know so I can add them to the development backlog.
 
-If you're interested in the project, check back regularly to see if there are new releases. I'll also announce any updates on <a target="_blank" href="https://twitter.com/mattcasmith">my Twitter account</a>and on <a href="https://mattcasmith.net">my blog</a>.
+If you're interested in the project, check back regularly to see if there are new releases. I'll also announce any updates on <a target="_blank" href="https://twitter.com/mattcasmith">my Twitter account</a> and on <a href="https://mattcasmith.net">my blog</a>.
