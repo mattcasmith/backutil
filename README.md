@@ -1,12 +1,17 @@
-# backutil
+# MCAS Backutil v0.51
 Python-based utility for backing up files on Windows systems<br />
 <a href="https://mattcasmith.net">MattCASmith.net</a> | <a href="https://twitter.com/mattcasmith">@MattCASmith</a>
+
+```diff
+- Backutil is a learning/hobby project and at least some aspects of its code may not follow 
+- best practices. If you choose to use it, you do so at your own risk. Make sure you take
+- a manual backup of your files before trying it out, and don't rely on it to back up
+- your production servers.
+```
 
 ### Introduction
 
 Backutil is a simple, Python-based utility for backing up files from Windows systems to compressed, password-protected local archives. It has features for performing incremental backups and automatically rotating backup files. This is achieved using <code>robocopy</code> and 7-Zip, which must be installed.
-
-<p style="float: left; width: 95%; padding: 5px; padding-left: 15px; margin: 30px 0 10px 0; font-style: italic; border-left: 5px solid red; background: #ff9999; color: #333;">Backutil is a learning/hobby project and at least some aspects of its code may not follow best practices. If you choose to use it, you do so at your own risk. Make sure you take a manual backup of your files before trying it out, and don't rely on it to back up your production servers.</p>
 
 To back up your files, simply ensure you have configured Backutil (see below) and run <code>backutil.exe</code> from the Command Prompt or PowerShell. The utility will report on its progress until the backup is successfully completed. More detail can also be found in <code>backutil_log.csv</code>.
 
