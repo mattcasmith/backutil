@@ -82,7 +82,6 @@ C:/Users/Matt/Downloads
 C:/Users/Matt/Music/iTunes/iTunes Media/Music
 C:/Users/Matt/Pictures
 C:/Users/Matt/Videos
- 
 ```
 
 #### Command line options
