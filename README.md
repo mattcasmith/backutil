@@ -1,4 +1,4 @@
-# MCAS Backutil v0.51
+# MCAS Backutil v0.52
 Python-based utility for backing up files on Windows systems<br />
 <a href="https://mattcasmith.net">MattCASmith.net</a> | <a href="https://twitter.com/mattcasmith">@MattCASmith</a>
 
@@ -85,8 +85,6 @@ C:/Users/Matt/Videos
  
 ```
 
-Note the empty line at the end of the list of directories. As of v0.51, this is required to ensure that Backutil parses the backup list file correctly (this has been noted as a bug for future development).
-
 #### Command line options
 
 Backutil also supports several options if you wish to set certain configuration parameters manually from the Command Prompt or PowerShell. Note that any parameters set via command line options will override the respective parameters in the <code>config.ini</code> configuration file.
@@ -105,6 +103,17 @@ The following command shows an example of how the command line options may be us
 .\backutil.exe -n matts-pc -l locations.txt -i -r 5
 ```
 Running Backutil with the options above will save backup files to a folder called <code>matts-pc</code> (note that this folder name is also how previous backups are tracked). The list of directories to back up files from will be retrieved from <code>locations.txt</code>. Backups will be incremental (only changed files will be backed up each time Backutil runs) and five previous backups will be retained.
+
+### Changes
+
+#### v0.52
+
+Small bug fixes and improvements from v0.51:
+* 7-Zip file now generated directly in destination folder
+* Hash file now only generated after successful backup
+* Blank line at end of backup list file no longer required
+* Help page consistent with online documentation
+* Fixed --help and --incremental arguments
 
 ### Future development
 

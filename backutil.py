@@ -22,7 +22,7 @@ class Data:
 # Parse command line options
 def cl_options(config):
     options_s = "hn:l:ir:"
-    options_l = ["help=", "name=", "list=", "incremental=", "rotate="]
+    options_l = ["name=", "list=", "incremental", "rotate=", "help"]
     full_cmd_arguments = sys.argv
     argument_list = full_cmd_arguments[1:]
     arguments, values = getopt.getopt(argument_list, options_s, options_l)
@@ -30,7 +30,7 @@ def cl_options(config):
         if current_argument in ("-h", "--help"):
             print("")
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            print("MCAS Backutil v0.51 | (C) 2020 MattCASmith | MattCASmith.net")
+            print("MCAS Backutil v0.52 | (C) 2021 MattCASmith | MattCASmith.net")
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
             print("Simple utility to back up select files on Windows systems,")
             print("including incremental backup and rotation features.")
@@ -42,10 +42,11 @@ def cl_options(config):
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
             print("COMMAND LINE OPTIONS")
             print("Where applicable, these options override config.ini")
-            print("--name        | -n        | Sets backup folder/record name")
-            print("--list        | -l <file> | Sets backup list file")
+            print("--help        | -h        | Displays help and information")
+            print("--name <name> | -n <name> | Sets backup folder/record name")
+            print("--list <file> | -l <file> | Sets backup list file")
             print("--incremental | -i        | Turns on incremental backups")
-            print("--rotate      | -r <no>   | Sets no. of backups to rotate")
+            print("--rotate <no> | -r <no>   | Sets no. of backups to rotate")
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
             print("")
             sys.exit()
@@ -153,7 +154,10 @@ def backup(config, data):
     backup_list = []
     backup_list_file = open(config.backup_list_file)
     for line in backup_list_file:
-        backup_list.append(line[:-1])
+        if line[-1] == "\n":
+            backup_list.append(line[:-1])
+        else:
+            backup_list.append(line)
     backup_list_file.close()
     print("Read list of directories to back up.")
     log("Backup list read successfully.", "Success")
@@ -247,6 +251,13 @@ def backup(config, data):
                 log(error, "Error")
     print("Finished copying files.")              
     log("Finished copying files.", "Success")
+
+    # Archive and password protect .7z
+    log("Creating .7z archive...", "Attempt")
+    command = "7z a -t7z -mhc=on -mhe=on -mmt \"" + config.server_directory + config.computer_name + "\\" + config.backup_time + ".7z\" " + config.staging_folder + config.backup_time +" -p" + config.archive_password
+    subprocess.call(command, shell=True, stdout=config.FNULL, stderr=subprocess.STDOUT)
+    print("Created 7-Zip archive.")
+    log("7z archive created.", "Success")
     
     # Create file listing backed up hashes
     log("Writing hashes...", "Attempt")
@@ -267,32 +278,12 @@ def backup(config, data):
     except:
         log("Error writing hashes.", "Error")
 
-    # Archive and password protect .7z
-    log("Creating .7z archive...", "Attempt")
-    command = "7z a -t7z -mhc=on -mhe=on -mmt \"" + config.staging_folder + config.backup_time + ".7z\" " + config.staging_folder + config.backup_time +" -p" + config.archive_password
-    subprocess.call(command, shell=True, stdout=config.FNULL, stderr=subprocess.STDOUT)
-    print("Created 7-Zip archive.")
-    log("7z archive created.", "Success")
-
-    # Copies .7z to a local directory
-    msg = "Copying .7z archive to local backup directory (" + config.server_directory + ")..."
-    log(msg, "Attempt")
-    copy_command = "robocopy \"" + config.staging_folder[:-1] + "\" \"" + config.server_directory + config.computer_name + "\" " + config.backup_time + ".7z  /NFL /NDL /NJH /NJS /nc /ns /np"
-    output = subprocess.call(copy_command, shell=True, stdout=config.FNULL, stderr=subprocess.STDOUT)
-    print("Copied 7-Zip archive to backup destination.")
-    log(".7z archive successfully copied to local backup directory.", "Success")
-
 # Deletes temporary files
 def delete_temp(config):
     # Delete folder on client machine
     log("Deleting temporary files...", "Attempt")
     try:
         command = "rmdir /s /q " + "\"" + config.staging_folder + config.backup_time + "\""
-        subprocess.call(command, shell=True, stdout=config.FNULL, stderr=subprocess.STDOUT)
-    except:
-        pass
-    try:
-        command = "del /f /s /q /a \"" + config.staging_folder + config.backup_time + ".7z\""
         subprocess.call(command, shell=True, stdout=config.FNULL, stderr=subprocess.STDOUT)
     except:
         pass
@@ -342,7 +333,7 @@ def main():
     # Print intro text
     print("")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print("MCAS BACKUTIL v0.51")
+    print("MCAS BACKUTIL v0.52")
     print("7-Zip must be installed")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("")
