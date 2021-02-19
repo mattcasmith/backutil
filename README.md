@@ -104,16 +104,11 @@ The following command shows an example of how the command line options may be us
 ```
 Running Backutil with the options above will save backup files to a folder called <code>matts-pc</code> (note that this folder name is also how previous backups are tracked). The list of directories to back up files from will be retrieved from <code>locations.txt</code>. Backups will be incremental (only changed files will be backed up each time Backutil runs) and five previous backups will be retained.
 
-### Changes
+### Changelog
 
-#### v0.52
-
-Small bug fixes and improvements from v0.51:
-* 7-Zip file now generated directly in destination folder
-* Hash file now only generated after successful backup
-* Blank line at end of backup list file no longer required
-* Help page consistent with online documentation
-* Fixed --help and --incremental arguments
+|**Date** |**Version** |**Changes** |
+|----------- |------- |----------- |
+|19/02/2021 |v0.52 |Small bug fixes and improvements from v0.51:<br />- 7-Zip file now generated directly in destination folder<br />- Hash file now only generated after successful backup<br />- Blank line at end of backup list file no longer required<br />- Help page consistent with online documentation<br />- Fixed --help and --incremental arguments |
 
 ### Future development
 
