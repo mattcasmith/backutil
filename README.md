@@ -107,7 +107,7 @@ Running Backutil with the options above will save backup files to a folder calle
 
 |**Date** |**Version** |**Changes** |
 |----------- |------- |----------- |
-|26/03/2021 |v0.61 |Implemented SQLite and other speed improvements:<br />- All data processed using SQLite<br />- Hashes generated using bigger file chunks<br />-File size cut by 80 per cent due to Pandas removal |
+|26/03/2021 |v0.61 |Implemented SQLite and other speed improvements:<br />- All data processed using SQLite<br />- Hashes generated using bigger file chunks<br />- File size cut by 80 per cent due to Pandas removal |
 |19/02/2021 |v0.52 |Small bug fixes and improvements from v0.51:<br />- 7-Zip file now generated directly in destination folder<br />- Hash file now only generated after successful backup<br />- Blank line at end of backup list file no longer required<br />- Help page consistent with online documentation<br />- Fixed --help and --incremental arguments |
 
 ### Future development
