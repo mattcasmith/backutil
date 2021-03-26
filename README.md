@@ -25,7 +25,7 @@ As Backutil automatically manages your backup files, it can be configured to run
 
 #### Testing and limitations
 
-Aside from all the testing that comes naturally during the development process, I have been using Backutil to back up my personal files for the last month or so using a Windows scheduled task to run the utility on a weekly basis. My configuration performs incremental backups on a five-file rotation and so far has worked without a hitch, to a level where I occasionally even forgot it was running.
+Aside from all the testing that comes naturally during the development process, I have been using Backutil to back up my personal files for the last few months using a Windows scheduled task to run the utility on a weekly basis. My configuration performs incremental backups on a five-file rotation and so far has worked without a hitch, to a level where I occasionally even forgot it was running.
 
 One slight limitation, which will be improved with <a href="#future-development">future development</a>, is the speed of the backup process. My current backups include around 83GB of data (about 50GB once compressed), and the initial "big" backup can take a couple of hours to run. For this reason, I recommend using Backutil to back up a focused set of directories rather than your whole hard drive, at least for the moment.
 
@@ -107,6 +107,7 @@ Running Backutil with the options above will save backup files to a folder calle
 
 |**Date** |**Version** |**Changes** |
 |----------- |------- |----------- |
+|26/03/2021 |v0.61 |Implemented SQLite and other speed improvements:<br />- All data processed using SQLite<br />- Hashes generated using bigger file chunks</br />-File size cut by 80 per cent due to Pandas removal |
 |19/02/2021 |v0.52 |Small bug fixes and improvements from v0.51:<br />- 7-Zip file now generated directly in destination folder<br />- Hash file now only generated after successful backup<br />- Blank line at end of backup list file no longer required<br />- Help page consistent with online documentation<br />- Fixed --help and --incremental arguments |
 
 ### Future development
@@ -115,13 +116,11 @@ My determination to build a minimum viable product before the end of 2020 means 
 
 * **Speed/efficiency improvements** - As it stands, Backutil generates hashes and copies files via some fairly simple logic. As a next step I hope to implement a multithreading solution to process multiple files at once and reduce the time taken to perform each backup.
 
-* **Improved data storage** - Backutil currently remembers what it has already backed up by recording file hashes in <code>.back</code> text files. I'd like to implement a more sophisticated system that stores this data in a more structured database, likely using SQLite.
-
-* **Inconsistencies and bug fixes** - The more time you spend with a piece of code, the more flaws you find in it. So far my list includes inconsistencies in the <code>--help</code> output and improvements to the way the 7-Zip archive is generated, but I'm sure I'll spot more along the way as I build other features.
-
 * **Remote backups** - You'll notice that some parts of Backutil use terminology associated with remote backups (for example, the Server section in the configuration file). This is because Backutil could originally be configured to use WinSCP to send backup files to a remote server. This has been removed for the initial release, but I hope to reinstate it in a future version.
 
 * **Graphical user interface (GUI)** - I've played around with Python GUIs a couple of times before, but have never had a script worth implementing one for. Depending on time limitations, I might develop a GUI for Backutil to increase ease of use for less experienced users.
+
+* **Inconsistencies and bug fixes** - The more time you spend with a piece of code, the more flaws you find in it. I'm sure I'll spot plenty to fix along the way.
 
 Have you got more ideas for new Backutil features? Or have you found bugs that you think I haven't? Please <a href="mailto:mattcasmith@protonmail.com">send me an email</a> to let me know so I can add them to the development backlog.
 
