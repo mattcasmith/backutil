@@ -15,7 +15,7 @@ Backutil is a simple, Python-based utility for backing up files from Windows sys
 
 To back up your files, simply ensure you have configured Backutil (see below) and run <code>backutil.exe</code> from the Command Prompt or PowerShell. The utility will report on its progress until the backup is successfully completed. More detail can also be found in <code>backutil_log.csv</code>.
 
-<img src="https://mattcasmith.net/wp-content/uploads/2020/12/backutil-1.png">
+<img src="https://mattcasmith.net/wp-content/uploads/2021/05/backutil_v0_7.png">
  
 When the utility is finished, you should find your complete backup files in your designated backup folder. The number and size of these backup files can be configured using the incremental backup and rotation settings, which are set in the configuration file or as command line options.
 
@@ -25,9 +25,7 @@ As Backutil automatically manages your backup files, it can be configured to run
 
 #### Testing and limitations
 
-Aside from all the testing that comes naturally during the development process, I have been using Backutil to back up my personal files for the last few months using a Windows scheduled task to run the utility on a weekly basis. My configuration performs incremental backups on a five-file rotation and so far has worked without a hitch, to a level where I occasionally even forgot it was running.
-
-One slight limitation, which will be improved with <a href="#future-development">future development</a>, is the speed of the backup process. My current backups include around 83GB of data (about 50GB once compressed), and the initial "big" backup can take a couple of hours to run. For this reason, I recommend using Backutil to back up a focused set of directories rather than your whole hard drive, at least for the moment.
+Aside from all the testing that comes naturally during the development process, I have been using Backutil to back up my personal files since the start of 2021 using a Windows scheduled task to run the utility on a weekly basis. My configuration performs incremental backups on a five-file rotation and so far has worked without a hitch, to a level where I occasionally even forgot it was running.
 
 ### Configuration
 
@@ -54,6 +52,7 @@ archive_pass = supersecretpassword
 incremental = True
 rotation = True
 retained = 5
+max_threads = 6
 
 [SERVER]
 server_directory = D:\backups\
@@ -70,6 +69,7 @@ The table below sets out what each option in the <code>config.ini</code> configu
 |LOCAL |incremental |Turns incremental backups on/off (True/False) |
 |LOCAL |rotation |Turns backup rotation on/off (True/False) |
 |LOCAL |retained |Sets number of backups to retain if rotation is on |
+|LOCAL |max_threads |Sets maximum number of threads for multiprocessing |
 |SERVER |server_directory |Sets folder for backup storage |
 
 #### Backup list file
@@ -95,26 +95,26 @@ Backutil also supports several options if you wish to set certain configuration 
 |-l \<file\> |\-\-list \<file\> |Manually sets the backup list file |
 |-i |\-\-incremental |Manually turns on incremental backups |
 |-r \<no\> |\-\-rotate \<no\> |Manually turns on backup rotation and sets number of backups |
+|-t \<no\> |\-\-threads \<no\> |Manually sets max threads for multiprocessing |
 
 The following command shows an example of how the command line options may be used.
 
 ```
 .\backutil.exe -n matts-pc -l locations.txt -i -r 5
 ```
-Running Backutil with the options above will save backup files to a folder called <code>matts-pc</code> (note that this folder name is also how previous backups are tracked). The list of directories to back up files from will be retrieved from <code>locations.txt</code>. Backups will be incremental (only changed files will be backed up each time Backutil runs) and five previous backups will be retained.
+Running Backutil with the options above will save backup files to a folder called <code>matts-pc</code> (note that this folder name is also how previous backups are tracked). The list of directories to back up files from will be retrieved from <code>locations.txt</code>. Backups will be incremental (only changed files will be backed up each time Backutil runs) and five previous backups will be retained. A maximum of six threads will be used for hash generation and file copy operations.
 
 ### Changelog
 
 |**Date** |**Version** |**Changes** |
 |----------- |------- |----------- |
+|03/05/2021 |v0.70 |Implemented multiprocessing and other improvements:<br />- Faster hash generation and file copying with multiprocessing<br />- Improved terminal output and logging<br />- General code improvements/tidying |
 |26/03/2021 |v0.61 |Implemented SQLite and other speed improvements:<br />- All data processed using SQLite<br />- Hashes generated using bigger file chunks<br />- File size cut by 80 per cent due to Pandas removal |
 |19/02/2021 |v0.52 |Small bug fixes and improvements from v0.51:<br />- 7-Zip file now generated directly in destination folder<br />- Hash file now only generated after successful backup<br />- Blank line at end of backup list file no longer required<br />- Help page consistent with online documentation<br />- Fixed --help and --incremental arguments |
 
 ### Future development
 
 My determination to build a minimum viable product before the end of 2020 means that I have a backlog of bug fixes and new features to add during 2021. These include:
-
-* **Speed/efficiency improvements** - As it stands, Backutil generates hashes and copies files via some fairly simple logic. As a next step I hope to implement a multithreading solution to process multiple files at once and reduce the time taken to perform each backup.
 
 * **Remote backups** - You'll notice that some parts of Backutil use terminology associated with remote backups (for example, the Server section in the configuration file). This is because Backutil could originally be configured to use WinSCP to send backup files to a remote server. This has been removed for the initial release, but I hope to reinstate it in a future version.
 
