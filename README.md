@@ -15,7 +15,7 @@ Backutil is a simple, Python-based utility for backing up files from Windows sys
 
 To back up your files, simply ensure you have configured Backutil (see below) and run <code>backutil.exe</code> from the Command Prompt or PowerShell. The utility will report on its progress until the backup is successfully completed. More detail can also be found in <code>backutil_log.csv</code>.
 
-<img src="https://mattcasmith.net/wp-content/uploads/2021/05/backutil_v0_7.png">
+<img src="https://mattcasmith.net/wp-content/uploads/2021/05/backutil_v0_70.png">
  
 When the utility is finished, you should find your complete backup files in your designated backup folder. The number and size of these backup files can be configured using the incremental backup and rotation settings, which are set in the configuration file or as command line options.
 
